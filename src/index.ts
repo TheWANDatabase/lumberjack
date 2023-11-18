@@ -54,7 +54,7 @@ export default class Logger {
         }
       })
         .then(() => resolve(id))
-        .catch(() => reject(new Error("Failed to write to log.")))
+        .catch(reject)
 
     })
 
