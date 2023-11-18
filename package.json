@@ -2,15 +2,26 @@
   "name": "lumberjack",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "ci": "tsc --declaration"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sapphire/snowflake": "^3.5.1",
     "datakit": "github:TheWANDatabase/datakit",
-    "drizzle-orm": "^0.29.0"
+    "drizzle-orm": "^0.28.6"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.10",
+    "@types/mocha": "^10.0.4",
+    "@types/sinon": "^17.0.1",
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1",
+    "ts-node": "^10.9.1"
   }
 }

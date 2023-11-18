@@ -1,4 +1,8 @@
 import {Client, logs} from "datakit";
+import {Snowflake} from "@sapphire/snowflake";
+
+const epoch = new Date('2023-11-18T19:20:36.127Z');
+const snowflake = new Snowflake(epoch);
 
 export default class Logger {
   readonly source: string;
@@ -15,37 +19,43 @@ export default class Logger {
   }
 
   public log(...args: any[]) {
-    this.writeToLog("log", ...args)
+    return this.writeToLog("log", ...args)
   }
 
   public info(...args: any[]) {
-    this.writeToLog("info", ...args)
+    return this.writeToLog("info", ...args)
   }
 
   public warn(...args: any[]) {
-    this.writeToLog("warn", ...args)
+    return this.writeToLog("warn", ...args)
   }
 
   public error(...args: any[]) {
-    this.writeToLog("error", ...args)
+    return this.writeToLog("error", ...args)
   }
 
   public debug(...args: any[]) {
-    this.writeToLog("debug", ...args)
+    return this.writeToLog("debug", ...args)
   }
 
-  private writeToLog(level: string, ...args: any[]) {
-    this.remote.data.insert(logs).values({
-      time: new Date(),
-      source: this.source,
-      level: level,
-      message: args.join(" "),
-      meta: {
-        version: this.version,
-        ...this.metadata
-      }
-    })
+  private writeToLog(level: string, ...args: any[]): Promise<bigint> {
+    return new Promise((resolve, reject) => {
+      const id = snowflake.generate();
+      this.remote.data.insert(logs).values({
+        id: id,
+        source: this.source,
+        level: level,
+        message: args.join(" "),
+        meta: {
+          version: this.version,
+          ...this.metadata
+        }
+      })
+        .then(() => resolve(id))
+        .catch(() => reject(new Error("Failed to write to log.")))
 
-    console.log(`[${new Date().toISOString()}] [${level.toUpperCase()}] ${this.source}:`, ...args)
+      console.log(`[${new Date().toISOString()}] [${level.toUpperCase()}] ${this.source}:`, ...args)
+
+    })
   }
 }
