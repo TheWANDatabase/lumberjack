@@ -3,7 +3,6 @@ export default class Logger {
   readonly version: string;
   readonly metadata: any;
   private remote;
-  private writeToLog;
 
   constructor(module: string, version: string, metadata?: any);
 
@@ -16,5 +15,7 @@ export default class Logger {
   error(...args: any[]): Promise<bigint>;
 
   debug(...args: any[]): Promise<bigint>;
+
+  private writeToLog;
 }
 //# sourceMappingURL=index.d.ts.map

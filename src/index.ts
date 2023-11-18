@@ -39,6 +39,8 @@ export default class Logger {
   }
 
   private writeToLog(level: string, ...args: any[]): Promise<bigint> {
+    let ts = new Date();
+    console.log(`[${ts.toLocaleDateString()} ${ts.toLocaleTimeString()}] [${level.toUpperCase()}] ${this.source}:`, ...args)
     return new Promise((resolve, reject) => {
       const id = snowflake.generate();
       this.remote.data.insert(logs).values({
@@ -54,8 +56,7 @@ export default class Logger {
         .then(() => resolve(id))
         .catch(() => reject(new Error("Failed to write to log.")))
 
-      console.log(`[${new Date().toISOString()}] [${level.toUpperCase()}] ${this.source}:`, ...args)
-
     })
+
   }
 }
