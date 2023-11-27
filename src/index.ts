@@ -38,11 +38,12 @@ export default class Logger {
     return this.writeToLog("debug", ...args)
   }
 
-  private writeToLog(level: string, ...args: any[]): Promise<bigint> {
+  private writeToLog(level: string, ...args: any[]): bigint {
     let ts = new Date();
     console.log(`[${ts.toLocaleDateString()} ${ts.toLocaleTimeString()}] [${level.toUpperCase()}] ${this.source}:`, ...args)
-    return new Promise((resolve, reject) => {
-      const id = snowflake.generate();
+    const id = snowflake.generate();
+    new Promise((resolve, reject) => {
+
       this.remote.data.insert(logs).values({
         id: id,
         source: this.source,
@@ -56,7 +57,8 @@ export default class Logger {
         .then(() => resolve(id))
         .catch(reject)
 
-    })
+    }).then(r => () => r).catch(e => () => e);
 
+    return id;
   }
 }
