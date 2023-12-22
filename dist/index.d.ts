@@ -1,20 +1,20 @@
 export default class Logger {
-    readonly source: string;
-    readonly version: string;
-    readonly metadata: any;
-    private remote;
-    private writeToLog;
+  readonly source: string;
+  readonly version: string;
+  readonly metadata: any;
+  private remote;
+  private writeToLog;
 
-    constructor(module: string, version: string, metadata?: any);
+  constructor(module: string, version: string, metadata?: any);
 
-    log(...args: any[]): Promise<bigint>;
+  log(...args: any[]): bigint;
 
-    info(...args: any[]): Promise<bigint>;
+  info(...args: any[]): bigint;
 
-    warn(...args: any[]): Promise<bigint>;
+  warn(...args: any[]): bigint;
 
-    error(...args: any[]): Promise<bigint>;
+  error(...args: any[]): bigint;
 
-    debug(...args: any[]): Promise<bigint>;
+  debug(...args: any[]): bigint;
 }
 //# sourceMappingURL=index.d.ts.map
